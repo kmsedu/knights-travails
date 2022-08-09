@@ -1,32 +1,18 @@
-import {Square} from './Square';
+import {knightsTravails} from './knights-travails';
 
-const knightsTravails = (start: number[], end: number[]) => {
-  const source = new Square(start[0], start[1]);
-  const visitedQueue = [source];
-  const alreadyVisitedSquares = new Map();
-  const path = [];
+function prettyPrint(moveArray: string[]) {
+  const formatMove = (move: string) => {
+    const coords = move.replace(/\[|\]/g, '').split(', ');
+    const [x, y] = coords;
+    const letter = String.fromCharCode(Number(x) + 97);
 
-  while (visitedQueue.length) {
-    const vertex = visitedQueue.shift();
-    alreadyVisitedSquares.set(vertex?.coords, vertex);
+    return `N${[letter, Number(y) + 1].join('')}`;
+  };
 
-    vertex?.possibleMoves().forEach(move => {
-      if (move) {
-        if (!alreadyVisitedSquares.has(move.coords)) {
-          move.predecessor = vertex;
-          visitedQueue.push(move);
-        }
-      }
-    });
-  }
+  console.log('Starting square:', formatMove(moveArray[0]));
+  console.log('Target square:', formatMove(moveArray[moveArray.length - 1]));
+  const path = moveArray.map(move => formatMove(move));
+  console.log('Path:', path);
+}
 
-  let current = alreadyVisitedSquares.get(`[${end[0]}, ${end[1]}]`);
-  while (current) {
-    path.push(current.coords);
-    current = current.predecessor;
-  }
-
-  return path.reverse();
-};
-
-console.log(knightsTravails([0, 0], [7, 6]));
+prettyPrint(knightsTravails([0, 0], [7, 7]));
