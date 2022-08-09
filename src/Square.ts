@@ -1,6 +1,6 @@
 export class Square {
   constructor(private x: number, private y: number) {}
-  public predecessor = null;
+  public predecessor: Square | null = null;
   public coords = `[${this.x}, ${this.y}]`;
 
   private readonly relativeCoords = [
